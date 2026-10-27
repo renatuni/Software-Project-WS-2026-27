@@ -18,7 +18,8 @@ export class EventError extends Error {
   }
 }
 function requireUser(user: string) {
-  if (!people[user]) throw new EventError('Bitte zuerst eine Demo-Person auswählen.');
+  if (!Object.hasOwn(people, user))
+    throw new EventError('Bitte zuerst eine Demo-Person auswählen.');
 }
 export function eventStatus(event: SportEvent, now = new Date()) {
   if (event.status === 'cancelled') return 'Abgesagt';

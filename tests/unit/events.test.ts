@@ -28,6 +28,12 @@ describe('Teilnahme und Erstellung · DR-1.1.4, DR-3.1.*, DR-4.1.*, DR-4.2.1', (
     for (const action of ['join', 'leave', 'cancel'] as const)
       expect(() => changeParticipation(seedEvents(now)[0], '', action, now)).toThrow('Demo-Person');
     expect(() => createEvent(input, '', now)).toThrow('Demo-Person');
+    for (const user of ['unbekannt', '__proto__', 'constructor']) {
+      expect(() => createEvent(input, user, now)).toThrow('Demo-Person');
+      expect(() => changeParticipation(seedEvents(now)[0], user, 'join', now)).toThrow(
+        'Demo-Person',
+      );
+    }
   });
   it('zählt die organisierende Person automatisch mit und normalisiert Zeit', () => {
     const event = createEvent(input, 'lea', now);
