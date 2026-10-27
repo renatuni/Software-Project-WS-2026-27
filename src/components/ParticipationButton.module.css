@@ -1,0 +1,23 @@
+.action {
+  margin-top: 1rem;
+}
+
+.button {
+  width: 100%;
+  min-height: 44px;
+  white-space: normal;
+}
+
+.button:disabled {
+  opacity: 1;
+  background: #e2e8f0;
+  color: #334155;
+  cursor: not-allowed;
+}
+
+.hint {
+  margin: 0.5rem 0 0;
+  color: #475569;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
