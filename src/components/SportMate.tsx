@@ -8,6 +8,7 @@ import {
   type EventInput,
   type Filters as FilterState,
   type SportEvent,
+  type Sport,
 } from '@/features/events/model';
 import { seedEvents } from '@/features/events/demo';
 import { changeParticipation, createEvent, searchEvents } from '@/features/events/service';
@@ -26,14 +27,27 @@ const MapView = dynamic(() => import('@/features/map/MapView'), {
     </div>
   ),
 });
-export function SportMate({ initialEvents }: { initialEvents: SportEvent[] }) {
+export function SportMate({
+  initialEvents,
+  initialSport,
+  initialCreate = false,
+}: {
+  initialEvents: SportEvent[];
+  initialSport?: Sport;
+  initialCreate?: boolean;
+}) {
   const [events, setEvents] = useState(initialEvents);
   const loaded = true;
   const [user, setUser] = useState('');
-  const [filters, setFilters] = useState<FilterState>(emptyFilters);
+  const [filters, setFilters] = useState<FilterState>({
+    ...emptyFilters,
+    sports: initialSport ? [initialSport] : [],
+  });
   const [selectedId, setSelectedId] = useState<string>();
   const [creating, setCreating] = useState(false);
-  const [loginIntent, setLoginIntent] = useState<'create' | 'join'>();
+  const [loginIntent, setLoginIntent] = useState<'create' | 'join' | undefined>(
+    initialCreate ? 'create' : undefined,
+  );
   const [feedback, setFeedback] = useState('');
   const [notice, setNotice] = useState('');
   const list = searchEvents(events, filters, user);
