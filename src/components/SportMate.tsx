@@ -11,6 +11,8 @@ import {
 } from '@/features/events/model';
 import { seedEvents } from '@/features/events/demo';
 import { changeParticipation, createEvent, searchEvents } from '@/features/events/service';
+import { orderEventCards, type ListOrder } from '@/features/events/list-order';
+import listStyles from './EventListOrder.module.css';
 import { EventCard } from './EventCard';
 import { EventDetails } from './EventDetails';
 import { EventForm } from './EventForm';
@@ -35,6 +37,8 @@ export function SportMate({ initialEvents }: { initialEvents: SportEvent[] }) {
   const [feedback, setFeedback] = useState('');
   const [notice, setNotice] = useState('');
   const list = searchEvents(events, filters, user);
+  const [listOrder, setListOrder] = useState<ListOrder>('available-first');
+  const cards = filters.mine ? list : orderEventCards(list, listOrder);
   const selected = events.find((event) => event.id === selectedId);
   const select = (id: string) => {
     setSelectedId(id);
@@ -170,6 +174,18 @@ export function SportMate({ initialEvents }: { initialEvents: SportEvent[] }) {
             {loaded ? `${list.length} Treffen` : 'Treffen werden geladen …'}
           </span>
         </div>
+        {!filters.mine && (
+          <label className={listStyles.control}>
+            Reihenfolge der Treffen
+            <select
+              value={listOrder}
+              onChange={(event) => setListOrder(event.target.value as ListOrder)}
+            >
+              <option value="available-first">Ausgebuchte Treffen zuletzt</option>
+              <option value="chronological">Nach Datum</option>
+            </select>
+          </label>
+        )}
         <div className="explore-grid">
           <section className="event-list" aria-label="Sporttreffen">
             {!loaded ? (
@@ -177,7 +193,7 @@ export function SportMate({ initialEvents }: { initialEvents: SportEvent[] }) {
                 Deine Sporttreffen werden geladen …
               </div>
             ) : list.length ? (
-              list.map((event) => (
+              cards.map((event) => (
                 <EventCard
                   key={event.id}
                   event={event}
