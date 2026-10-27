@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <rect width="1200" height="1200" fill="#e4ede5"/>
+  <path d="M570 0H1200V610L1010 440 883 420 803 362 705 310 651 231Z" fill="#a8d7e3"/>
+  <path d="M565 0 647 230 705 310 800 365 885 425 1010 443 1200 614" fill="none" stroke="#8ab9bd" stroke-width="5"/>
+  <g fill="#ccdfc9"><path d="M40 65H385V335H50Z"/><path d="M910 640H1170V1010H955Z"/><path d="M70 855H370V1170H55Z"/><path d="M490 1030H840V1180H465Z"/></g>
+  <g fill="none" stroke="#cad4cd" stroke-width="35" stroke-linejoin="round"><path d="M-30 460 325 448 530 390 690 322"/><path d="M380 -20 405 330 450 570 590 900 625 1220"/><path d="M-20 720 350 680 625 665 910 718 1220 850"/><path d="M710 395 730 610 845 850 940 1210"/></g>
+  <g fill="none" stroke="#fffdf5" stroke-width="24" stroke-linejoin="round"><path d="M-30 460 325 448 530 390 690 322"/><path d="M380 -20 405 330 450 570 590 900 625 1220"/><path d="M-20 720 350 680 625 665 910 718 1220 850"/><path d="M710 395 730 610 845 850 940 1210"/></g>
+  <g stroke="#fafaf2" stroke-width="13" fill="none"><path d="M120 190 285 390 340 680 290 960"/><path d="M70 560 430 570 730 610 1020 580"/><path d="M445 880 840 850 1140 920"/><path d="M530 390 625 665 590 900"/><path d="M200 1030 610 1010 1065 1070"/></g>
+  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#63776a"><text x="185" y="275" font-size="29">Nordstadt</text><text x="438" y="485" font-size="34" font-weight="700">Flensburg</text><text x="886" y="206" font-size="32" fill="#4a859a">Flensburger Förde</text><text x="708" y="333" font-size="24">Hafen</text><text x="590" y="780" font-size="27">Südstadt</text><text x="805" y="925" font-size="29">Campus</text><text x="182" y="1040" font-size="28">Weiche</text><text x="1050" y="774" font-size="24">Sandberg</text></g>
+  <text x="70" y="1140" font-family="system-ui,sans-serif" font-size="20" fill="#6c8076">Schematische Orientierung · keine Navigationskarte</text>
+</svg>
