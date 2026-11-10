@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/tile.openstreetmap.org/**', (route) => route.abort());
-  await page.goto('/');
+  await page.goto('/treffen');
 });
 
 test('Lukas: Altersgruppe und freie Plätze auf den echten Next.js-Karten', async ({ page }) => {

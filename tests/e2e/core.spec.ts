@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
   await page.route('**/tile.openstreetmap.org/**', (route) => route.abort());
-  await page.goto('/');
+  await page.goto('/treffen');
   await expect(page.getByRole('article')).toHaveCount(3);
 });
 test('DR-2.2.1/3: gemeinsame Filter und hilfreicher Leerzustand', async ({ page }) => {
