@@ -1,0 +1,14 @@
+.control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.control select {
+  width: auto;
+  max-width: 100%;
+  min-height: 44px;
+}

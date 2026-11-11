@@ -2,6 +2,9 @@ import { ArrowUpRight, CalendarDays, MapPin, Users } from 'lucide-react';
 import type { SportEvent } from '@/features/events/model';
 import { eventStatus, formatDate, formatTime } from '@/features/events/service';
 import { SportIcon } from './SportIcon';
+import { ageLabel, placeSummary } from '@/features/events/presentation';
+import { unavailableParticipation } from '@/features/events/participation';
+import { ParticipationButton } from './ParticipationButton';
 export function EventCard({
   event,
   user,
@@ -11,8 +14,7 @@ export function EventCard({
   user: string;
   onSelect: () => void;
 }) {
-  const count = event.status === 'cancelled' ? 0 : event.participants.length;
-  const full = count >= event.capacity;
+  const places = placeSummary(event);
   return (
     <article className="event-card">
       <div className="card-top">
@@ -20,14 +22,8 @@ export function EventCard({
           <SportIcon sport={event.sport} />
         </span>
         <span className="eyebrow">{event.sport}</span>
-        <span className={`availability ${full || event.status === 'cancelled' ? 'quiet' : ''}`}>
-          {event.status === 'cancelled'
-            ? 'Abgesagt'
-            : full
-              ? 'Ausgebucht'
-              : event.capacity - count === 1
-                ? '1 Platz frei'
-                : `${event.capacity - count} Plätze frei`}
+        <span className={`availability ${places.full || places.free === null ? 'quiet' : ''}`}>
+          {places.label}
         </span>
       </div>
       <button className="event-title" onClick={onSelect}>
@@ -44,16 +40,26 @@ export function EventCard({
       </p>
       <div className="card-tags">
         <span>{event.level}</span>
-        <span>{event.ageGroup || 'Jedes Alter'}</span>
+        <span>{ageLabel(event.ageGroup)}</span>
       </div>
       <div className="card-bottom">
         <span>
-          <Users size={16} /> {count} von {event.capacity} dabei
+          <Users size={16} />
+          {event.status === 'cancelled'
+            ? 'Abgesagt'
+            : places.free === null
+              ? 'Teilnehmerzahl nicht verfügbar'
+              : `${event.participants.length} ${event.participants.length === 1 ? 'Person' : 'Personen'} dabei`}
         </span>
         <span className="small-status">
-          {event.participants.includes(user) ? 'Du bist dabei' : eventStatus(event)}
+          {event.participants?.includes(user)
+            ? 'Du bist dabei'
+            : places.free !== null
+              ? eventStatus(event)
+              : ''}
         </span>
       </div>
+      <ParticipationButton action={unavailableParticipation(event, user)} />
     </article>
   );
 }
