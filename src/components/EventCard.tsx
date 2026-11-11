@@ -3,6 +3,8 @@ import type { SportEvent } from '@/features/events/model';
 import { eventStatus, formatDate, formatTime } from '@/features/events/service';
 import { SportIcon } from './SportIcon';
 import { ageLabel, placeSummary } from '@/features/events/presentation';
+import { unavailableParticipation } from '@/features/events/participation';
+import { ParticipationButton } from './ParticipationButton';
 export function EventCard({
   event,
   user,
@@ -47,7 +49,7 @@ export function EventCard({
             ? 'Abgesagt'
             : places.free === null
               ? 'Teilnehmerzahl nicht verfügbar'
-              : `${event.participants.length} Teilnehmende`}
+              : `${event.participants.length} ${event.participants.length === 1 ? 'Person' : 'Personen'} dabei`}
         </span>
         <span className="small-status">
           {event.participants?.includes(user)
@@ -57,6 +59,7 @@ export function EventCard({
               : ''}
         </span>
       </div>
+      <ParticipationButton action={unavailableParticipation(event, user)} />
     </article>
   );
 }
