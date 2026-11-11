@@ -106,8 +106,42 @@ als `SportEvent.participants` eingebettet, nicht als Datenbanktabelle umgesetzt.
 Eine Kombination aus Event und Person muss produktiv eindeutig sein; Umsetzung und
 Nebenläufigkeit gehören zu Issue #4. Keine SQL-Schemaänderung in diesem Feedbackpaket.
 
+## Optionale Reihenfolge (D)
+
+[list-order.ts](../../src/features/events/list-order.ts) sortiert eine Kopie der bereits
+chronologisch gefilterten Liste stabil: bekannte ausgebuchte Treffen zuletzt.
+[SportMate](../../src/components/SportMate.tsx) verwendet diese Kopie ausschließlich zum
+Rendern der Karten in „Entdecken“. Auswahl „Nach Datum“ stellt die bisherige Reihenfolge her.
+Die Standardauswahl ist „Ausgebuchte Treffen zuletzt“. Innerhalb jeder Gruppe bleibt die
+chronologische Reihenfolge erhalten; unbekannte Belegung wird nicht als ausgebucht eingestuft.
+Keine Treffer werden entfernt. Die Karte erhält weiterhin die ursprüngliche gefilterte Liste.
+„Meine Treffen“ behält seine bisherige Reihenfolge und erhält kein neues Bedienelement.
+Die vorhandene Such-/Filterfunktion und deren fachliche Regeln bleiben unverändert.
+
+## Lieferstatus und Reviewfolge
+
+| Punkt | Status | Offene Abhängigkeit |
+|---|---|---|
+| A | Sichtbarer, barrierearm beschrifteter Kartenbutton; Zustandskomponente und Vertrag vorbereitet | Echte Authentifizierung, Daten, Controller und Backend-Adapter aus/zu Issue #4; keine produktive Teilnahme |
+| B | Vollständig für das bestehende Altersgruppenmodell umgesetzt | Keine neue Backend-Abhängigkeit |
+| C | Vollständig für gültige vorhandene Daten umgesetzt; unbekannte Daten gekennzeichnet | Produktiv autoritativer Belegungsstand aus Issue #4 |
+| D | Optionale Sortierung in Entdecken umgesetzt | Keine neue Backend-Abhängigkeit |
+
+Gestapelte Branches: `feature/feedback-01-alter-plaetze` auf der Next.js-Basis,
+danach `feature/feedback-01-teilnahme-ui`, danach `feature/feedback-01-sortierung`.
+Dokumentation liegt bei den fachlichen Änderungen; kein zusätzlicher Dokumentationsbranch.
+Review/Merge in dieser Reihenfolge nach dem Basis-PR #5; keine eigenständigen Merges
+oder produktiven Deployments. Bestehende GitHub-Qualitätsprüfungen werden weiterverwendet.
+
 ## Prüfung
 
 Unit-Tests prüfen Altersgruppen, freie/volle/abgesagte Treffen und unvollständige oder
 widersprüchliche Belegung. Playwright prüft die echte Next.js-Seite auf Desktop und 360 px.
 Die bestehenden Kernabläufe werden als Regressionstests beibehalten.
+
+Lokaler Gesamtstand am 27.10.2026: 42 Unit-Tests, 14 Playwright-Tests
+(Desktop und 360 px) sowie 11 unveränderte Legacy-Prüfgruppen bestanden.
+Lint, Formatprüfung, Typecheck und Produktionsbuild erfolgreich.
+Geprüft wurden außerdem Filter/Leerzustand, Kartenanzahl, Detaildialog per Tastatur,
+vorhandene Demo-Teilnahme/-Absage, Erstellung und unveränderte Reihenfolge eigener Treffen.
+Keine Aussage über echte Authentifizierung, Persistenz oder konkurrierende Buchungen.

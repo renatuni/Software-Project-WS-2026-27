@@ -43,3 +43,31 @@ test('Lukas: sichtbare Teilnahmeaktion ohne vorgetäuschten Erfolg', async ({ pa
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Badminton zu zweit', exact: true })).toBeFocused();
 });
+
+test('Lukas: optionale Kartenreihenfolge erhält Filter, Karte und Meine Treffen', async ({
+  page,
+}) => {
+  const titles = page.getByRole('article').locator('.event-title');
+  const chronological = ['Fußball am Campus', 'Volleyball am Hafen', 'Badminton zu zweit'];
+  await expect(titles).toHaveText([chronological[0], chronological[2], chronological[1]]);
+  await expect(page.locator('.map-pin')).toHaveCount(3);
+  await page
+    .getByRole('combobox', { name: 'Reihenfolge der Treffen' })
+    .selectOption('chronological');
+  await expect(titles).toHaveText(chronological);
+  await page
+    .getByRole('combobox', { name: 'Reihenfolge der Treffen' })
+    .selectOption('available-first');
+  await page.getByRole('searchbox').fill('Volleyball');
+  await expect(titles).toHaveText(['Volleyball am Hafen']);
+  await expect(page.locator('.map-pin')).toHaveCount(1);
+  await page.getByRole('searchbox').fill('nichtvorhanden');
+  await expect(page.getByText('Keine Treffen gefunden', { exact: true })).toBeVisible();
+  await page.getByRole('combobox', { name: 'Demo-Person', exact: true }).selectOption('alex');
+  await page
+    .getByRole('button', { name: 'Meine Treffen', exact: true })
+    .filter({ visible: true })
+    .click();
+  await expect(page.getByRole('combobox', { name: 'Reihenfolge der Treffen' })).toHaveCount(0);
+  await expect(titles).toHaveText(chronological);
+});

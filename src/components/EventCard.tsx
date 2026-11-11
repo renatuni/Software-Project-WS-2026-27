@@ -49,7 +49,7 @@ export function EventCard({
             ? 'Abgesagt'
             : places.free === null
               ? 'Teilnehmerzahl nicht verfügbar'
-              : `${event.participants.length} Teilnehmende`}
+              : `${event.participants.length} ${event.participants.length === 1 ? 'Person' : 'Personen'} dabei`}
         </span>
         <span className="small-status">
           {event.participants?.includes(user)
